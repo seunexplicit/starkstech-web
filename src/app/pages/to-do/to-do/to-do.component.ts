@@ -180,6 +180,7 @@ export class ToDoComponent implements OnInit {
       loader.close();
       if (response.status) {
         this.todos = response.data?.todos;
+        this.utility.closeLoader()
         this.todos = this.todos?.map((value, i) => {
           let complete = 0;
           let uncomplete = 0;
