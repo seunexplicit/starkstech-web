@@ -1,0 +1,82 @@
+.open .mat-form-field-wrapper {
+  border-bottom: 1px solid var(--primary-color);
+  padding-bottom: unset;
+  line-height: 1.0em;
+}
+
+.num-wrapper {
+  height: 35px;
+  width: 35px;
+
+  & + div{
+       width:calc(90% - 45px);
+  }
+}
+
+.todo-card, .task-card {
+  padding: 15px 10px;
+  background:white;
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
+  max-width:450px
+}
+
+.task-card{
+     width:280px;
+}
+
+.todo-title {
+  background:#f3f3f3
+}
+
+span.mat-checkbox-inner-container-no-side-margin{
+     border:1px solid rgba(0, 0, 0, 0.6);
+}
+
+
+
+.hidden-input {
+  width: 111px;
+  height: 37px;
+}
+
+.label-1 {
+  width:80px;
+
+  &+*{
+       width:calc(100% - 80px);
+  }
+}
+
+.tasks{
+     margin-left:80px;
+}
+
+.view-wrapper, .create-wrapper {
+  width: 100%;
+  display: none;
+
+  &.show {
+    display: initial;
+  }
+}
+
+@media only screen and (max-width:1100px){
+  .list-wrapper, .view-wrapper, .create-wrapper {
+       width:100%;
+       display:none;
+       &.show{
+            display:initial;
+       }
+  }
+}
+
+.grey-bg{
+     background:whitesmoke;
+     border-radius:10px;
+}
+
+.smx-icon {
+  font-size: 17px;
+  height:17px;
+}
+

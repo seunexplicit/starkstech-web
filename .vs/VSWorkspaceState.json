@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\components",
+    "\\src\\app\\components\\side-nav",
+    "\\src\\app\\components\\top-bar",
+    "\\src\\app\\directives",
+    "\\src\\app\\pages",
+    "\\src\\app\\pages\\to-do",
+    "\\src\\app\\pipes"
+  ],
+  "SelectedNode": "\\src\\app\\directives\\row.directive.ts",
+  "PreviewInSolutionExplorer": false
+}

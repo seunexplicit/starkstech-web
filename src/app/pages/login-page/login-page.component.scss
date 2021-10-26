@@ -1,0 +1,42 @@
+section {
+  min-height: calc(100vh - 90px);
+
+  .button {
+    width: 100%;
+    max-width: 450px;
+  }
+}
+
+.google-wrp{
+     width:220px;
+     padding:10px;
+     background:white;
+     border-radius:10px;
+}
+
+.form-wrapper{
+     min-width:295px;
+     padding:20px 15px;
+     border-radius:10px;
+
+     input{
+          width:100%;
+          max-width:450px;
+     }
+}
+
+.form-content{
+     max-width:450px;
+}
+
+@media only screen and (max-width:1200px){
+     .form-group{
+          max-width:450px;
+     }
+
+  .form-wrapper#signup{
+       width:50%;
+  }
+}
+
+

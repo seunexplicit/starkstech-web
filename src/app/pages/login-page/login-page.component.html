@@ -1,0 +1,113 @@
+<app-top-bar></app-top-bar>
+<main class="w-100">
+  <section class="w-100 flex-row center-align center-justify" *ngIf="action=='login'">
+    <div class="w-50 tint-main-bg-color form-wrapper">
+      <form [formGroup]="loginGroup" class="flex-col w-100 center-align">
+        <div class="w-100 form-content">
+          <h2 class="main-color">Login to your account</h2>
+        </div>
+        <div class="w-100 mb-2 form-content flex-col">
+          <label class="">Username</label>
+          <input placeholder="Username/Email" class="form-input" formControlName="username" />
+          <div *ngIf="isSubmitted" class="mtxt-size error">
+            <span class="error" *ngIf="loginGroup.controls.username.errors?.required">Username required</span>
+          </div>
+        </div>
+        <div class="w-100 mb-2 form-content flex-col">
+          <label class="">Password</label>
+          <input type="password" class="form-input" placeholder="Password" formControlName="password" />
+          <div *ngIf="isSubmitted" class="mtxt-size error">
+            <span *ngIf="loginGroup.controls.password.errors?.required">Password is required</span>
+          </div>
+        </div>
+        <div class="w-100 flex-col center-align">
+          <button mat-raised-button (click)="login()" class="main-bg-color button">Login</button>
+        </div>
+      </form>
+      <div class="flex-row center-justify mt-2 main-color w-100">
+        <a [href]="googleSignInUrl">
+          <div class="flex-row center-align google-wrp" mat-raised-button>
+            <p class="w-60">Sign up using your google account</p>
+            <img src="assets/imgs/google.png" class="xlg-icon" />
+          </div>
+        </a>
+      </div>
+      <div class="mt-2 flex-row center-justify">
+        <p class="txt-size">No account yet? <span (click)="action='signup'" class="underline pointer main-color">sign up here</span></p>
+      </div>
+    </div>
+    
+  </section>
+  <section class="w-100 flex-row center-align center-justify" *ngIf="action=='signup'">
+    <div class="w-70 tint-main-bg-color mt-5 form-wrapper mb-3" id="signup">
+      <form [formGroup]="createGroup" class="flex-col w-100 center-align">
+        <div class="w-100 form-group">
+          <h2 class="main-color">Create an account</h2>
+        </div>
+        <div class="w-100 flex-row wrap space-between form-group">
+          <div class="w-100 flex-col mb-2 form-content">
+            <label class="">First Name</label>
+            <input placeholder="First Name" class="form-input" formControlName="firstName" />
+            <div *ngIf="isSubmitted" class="mtxt-size error">
+              <span *ngIf="createGroup.controls.firstName.errors?.required">First name required</span>
+            </div>
+          </div>
+          <div class="w-100 flex-col mb-2 form-content">
+            <label class="">Last name</label>
+            <input placeholder="Last Name (optional)" class="form-input" formControlName="lastName" />
+            <div *ngIf="isSubmitted" class="mtxt-size error">
+              <span *ngIf="createGroup.controls.lastName.errors?.required">Username required</span>
+            </div>
+          </div>
+          <div class="w-100 flex-col mb-2 form-content">
+            <label class="">Email Address</label>
+            <input placeholder="Email" class="form-input" formControlName="email" />
+            <div *ngIf="isSubmitted" class="mtxt-size error">
+              <span *ngIf="createGroup.controls.email.errors?.required">Email is required</span>
+              <span *ngIf="!createGroup.controls.email.errors?.required&&
+                    createGroup.controls.email.errors?.email">Invalid email address</span>
+            </div>
+          </div>
+          <div class="w-100 flex-col mb-2 form-content">
+            <label class="mb-1">Username</label>
+            <input placeholder="Username" class="form-input" formControlName="username" />
+            <div *ngIf="isSubmitted" class="mtxt-size error">
+              <span *ngIf="createGroup.controls.username.errors?.required">Username is required</span>
+            </div>
+          </div>
+          <div class="w-100 flex-col mb-2 form-content">
+            <label class="">Password</label>
+            <input type="password" placeholder="Password" class="form-input" formControlName="password" />
+            <div *ngIf="isSubmitted" class="mtxt-size error">
+              <span *ngIf="createGroup.controls.password.errors?.required">Password is required</span>
+            </div>
+          </div>
+          <div class="w-100 flex-col mb-2 form-content">
+            <label class="">Re-enter Password</label>
+            <input type="password" class="form-input" placeholder="Password" formControlName="password1" />
+            <div *ngIf="isSubmitted" class="error mtxt-size">
+              <span *ngIf="createGroup.controls.password1.errors?.required">Password is required</span>
+              <span *ngIf="!createGroup.controls.password1.errors?.required&&
+                createGroup.errors?.passwordMismatch">Password is mismatched</span>
+            </div>
+          </div>
+        </div>
+        <div class="w-100 flex-col center-align">
+          <button mat-raised-button (click)="createAnAccount()" class="main-bg-color button">Create Account</button>
+        </div>
+      </form>
+      <div class="flex-row center-justify mt-2 main-color w-100">
+        <a [href]="googleSignInUrl">
+          <div class="flex-row center-align google-wrp">
+            <p class="w-60">Sign up using your google account</p>
+            <img src="assets/imgs/google.png" class="xlg-icon" />
+          </div>
+        </a>
+      </div>
+
+      <div class="flex-row center-justify mt-2">
+        <p class="txt-size">Have an account? <span (click)="action='login'" class="underline pointer main-color">login here</span></p>
+      </div>
+    </div>
+  </section>
+</main>

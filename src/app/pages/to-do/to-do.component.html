@@ -1,0 +1,15 @@
+<app-top-bar></app-top-bar>
+<div class="md-nav">
+  <mat-icon class="pointer" (click)="showMenu=!showMenu" style="color:white">menu</mat-icon>
+  <div class="mt-2 round-x nav-wrapper" *ngIf="showMenu">
+    <app-side-nav class="w-100"></app-side-nav>
+  </div>
+</div>
+<main class="flex-row">
+  <aside class="w-30">
+    <app-side-nav class="w-100"></app-side-nav>
+  </aside>
+  <aside  class="w-70">
+    <router-outlet></router-outlet>
+  </aside>
+</main>

@@ -1,0 +1,160 @@
+<main class="flex-row w-100">
+  <aside class="w-50 pd-05 list-wrapper mr-1 mt-1 grey-bg" [class]="{'show':view=='list'}">
+    <h2 class="txt-center">My Todo List</h2>
+    <article *ngFor="let todo of todos" class="flex-col center-align w-100" (click)="navigateToTodo('/home/'+todo._id)">
+      <div class="mb-3 round w-100 todo-card">
+        <h3 class="main-color cap">{{todo.name}}</h3>
+        <div class="flex-row space-between mtxt-size wrap center-align">
+          <p><span class="mr-1 x-gray">Task Date</span><span class="sec-bg-color pd-05 round">{{todo.date|date:'y-M-dd'}}</span></p>
+          <p class="mr-1 x-gray">Total Task <span class="main-bg-color pd-05 round">{{todo?.tasks?.length}}</span></p>
+          <p class="mr-1 x-gray">Completed Task <span class="success-bg pd-05 round">{{todo.completedTask}}</span></p>
+          <p class="mr-1 x-gray">Uncomplete Task <span class="sec-bg-color pd-05 round">{{todo.uncompletedTask}}</span></p>
+        </div>
+      </div>
+    </article>
+    <div class="mb-2">
+      <button mat-fab class="main-bg-color" (click)="view='create'">
+        <mat-icon>add</mat-icon>
+      </button>
+      <span class="ml-1">Create New</span>
+    </div>
+    <div *ngIf="!todos[0]" class="flex-col center-align mb-3">
+      <p class="x-gray mb-2">You dont have any todo list yet.</p>
+      <button mat-raised-button class="main-bg-color button" (click)="view='create'">Create New</button>
+    </div>
+  </aside>
+  <aside class="w-50 pd-05 create-wrapper" [class]="{'show':view=='create'}">
+    <h2 class="flex-row center-align">
+      <mat-icon class="sm-icon mb-1 mr-3 pointer" (click)="view='list'" style="margin-bottom: unset">arrow_back</mat-icon> Create New Todo
+    </h2>
+    <form [formGroup]="todoForm">
+      <div class="flex-row w-100 center-align mt-2">
+        <label class="label-1  main-color mr-1 pd-05 round">Title</label>
+        <div class="">
+          <input class="form-input w-100" placeholder="Title" formControlName="name" />
+        </div>
+      </div>
+      <div class="flex-row w-100 mt-1 mb-2 center-align">
+        <label class="label-1 main-color mr-1 pd-05 round">Date</label>
+        <mat-form-field class="open" color="primary" appearance="fill">
+          <input matInput [matDatepicker]="dp" formControlName="date">
+          <mat-datepicker-toggle matSuffix [for]="dp" class="sec-color"></mat-datepicker-toggle>
+          <mat-datepicker #dp color="primary"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div formArrayName="tasks" class="mt-5 tasks">
+        <section *ngFor="let todoControl of tasksControls.controls; let i = index" class="mb-3" [formGroupName]="i">
+          <div class="flex-row w-100 center-align mb-2">
+            <div class="tint-main-bg-color main-color num-wrapper mr-1 circle center-align flex-row center-justify">{{i+1}}</div>
+            <div class="w-80"><input [placeholder]="'Task '+(i+1) " formControlName="task" class="form-input w-100" /></div>
+            <div class="w-10"><mat-icon class="error" aria-hidden="false" (click)="removeTasks(i)" aria-label="close icon">close</mat-icon></div>
+          </div>
+          <div class="flex-row w-100 center-align mb-2">
+            <div class="num-wrapper"></div>
+            <textarea formControlName="description" placeholder="Description (optional)" class="form-textarea pd-05 w-80 ml-1"></textarea>
+            <div class="w-10"></div>
+          </div>
+          <div class="mt-1">
+            <div class="flex-row w-100 center-align mb-2">
+              <div class="num-wrapper"></div>
+              <div class="flex-row w-80 space-between">
+                <div class="flex-row w-100" *ngIf="!tasksControls?.value[i]?.startTime">
+                  <div>
+                    <button mat-button class="sec-color"><mat-icon class="sm-icon" aria-hidden="false" aria-label="schedule icon">schedule</mat-icon><span class="sec-color mtxt-size"> Start Time</span></button>
+                  </div>
+                  <div class="hidden-input">
+                    <input [ngxTimepicker]="startpicker" formControlName="startTime" />
+                    <ngx-material-timepicker #startpicker></ngx-material-timepicker>
+                  </div>
+                </div>
+                <div class="flex-row w-100" *ngIf="!tasksControls?.value[i]?.endTime&&tasksControls?.value[i]?.startTime">
+                  <div>
+                    <button mat-button class="sec-color"><mat-icon class="sm-icon" aria-hidden="false" aria-label="schedule icon">schedule</mat-icon><span class="mtxt-size">End Time</span></button>
+                  </div>
+                  <div class="hidden-input">
+                    <input [ngxTimepicker]="endpicker" formControlName="endTime" />
+                    <ngx-material-timepicker #endpicker></ngx-material-timepicker>
+                  </div>
+                </div>
+                <div class="flex-row w-100" *ngIf="!tasksControls?.value[i]?.files">
+                  <div>
+                    <button mat-button class="sec-color"><mat-icon class="sm-icon" aria-hidden="false" aria-label="schedule icon">attach_file</mat-icon> <span class="mtxt-size"> Upload File</span></button>
+                  </div>
+                  <div class="hidden-input">
+                    <input type="file" (change)="fileUpload($event, i)">
+                  </div>
+                </div>
+              </div>
+              <div class="w-10"></div>
+            </div>
+            <div *ngIf="tasksControls?.value[i]?.startTime" class="flex-row mb-2 center-align mtxt-size">
+              <label class="x-gray mr-2">Start Time</label>
+              <span class="success-bg pd-05 mr-1"></span>
+              <span class="success-bg pd-05 mr-2">{{tasksControls?.value[i]?.startTime}}</span>
+              <mat-icon aria-hidden="false" class="sm-icon error pointer" (click)="removeTaskData('startTime', i)" aria-label="close icon">close</mat-icon>
+            </div>
+
+            <div *ngIf="tasksControls?.value[i]?.endTime" class="flex-row mb-2 center-align mtxt-size">
+              <label class="x-gray mr-2">End Time</label>
+              <span class="mr-1 pd-05 sec-bg-color"></span>
+              <span class="mr-2 pd-05 sec-bg-color">{{tasksControls?.value[i]?.endTime}}</span>
+              <mat-icon class="sm-icon error" aria-hidden="false" (click)="removeTaskData('endTime', i)" aria-label="close icon">close</mat-icon>
+            </div>
+
+            <div *ngIf="tasksControls?.value[i]?.files" class="flex-row center-align mtxt-size">
+              <label class="x-gray mr-2">Document</label>
+
+              <a class="mr-2" [href]="tasksControls?.value[i]?.files | imageUrl | async" download="download">
+                <img [src]="tasksControls?.value[i]?.files | imageUrl | async" />
+                <span class="mr-1 pd-05 main-bg-color"></span>
+              </a>
+              <mat-icon class="sm-icon error" aria-hidden="false" (click)="removeTaskData('files', i)" aria-label="close icon">close</mat-icon>
+            </div>
+          </div>
+        </section>
+        <div>
+          <mat-icon aria-hidden="false" class="main-color lg-icon pointer" (click)="addTasks()" aria-label="add circle icon">add_circle</mat-icon>
+        </div>
+      </div>
+      <div class="mt-3">
+        <button mat-raised-button (click)="submitTodo()" class="main-bg-color w-100">Submit</button>
+        </div>
+    </form>
+  </aside>
+  <aside class="w-50 pd-05 view-wrapper" appCol [class]="{'show':view=='view'}">
+    
+    <div>
+      <h2 class="cap main-color pd-05 round todo-title flex-row center-align">
+       <mat-icon class="sm-icon mb-1 mr-3 pointer" (click)="navigateToTodo('/home')" style="margin-bottom: unset">arrow_back</mat-icon> {{todo.name}}
+      </h2>
+      <p class="txt-size flex-row center-align"><span class="main-bg-color round pd-05 mr-2">To be performed on: </span> {{todo.date|date:'MMM dd, yyy'}}</p>
+    </div>
+    <div class="mt-2">
+      <h3>Tasks</h3>
+      <div class="flex-row space-between wrap">
+        <div *ngFor="let task of todo.tasks; let i = index" class="task-card round mb-3">
+          <p class="cap">{{task.task}}</p>
+          <div class="flex-row space-between">
+            <p class="txt-size main-color">Status: <span [class]="{'success':task.status=='done', 'warning':task.status=='undone'}">{{task.status}}</span></p>
+            <p class="main-color txt-size">Done
+              <mat-checkbox
+                (change)="setStatus($event, i)"
+                            [checked]="task.status=='done'"
+               >
+              </mat-checkbox>
+            </p>
+          </div>
+          <p class="gray txt-size">{{task.description}}</p>
+          <div class="flex-row space-between x-gray mtxt-size mt-2">
+            <p class="flex-row center-align"> <mat-icon aria-hidden="false" class="smx-icon"  aria-label="close icon">schedule</mat-icon> Start time: <span class="success">{{task.startTime|date:'h:mm a'}}</span></p>
+            <p class="flex-row center-align"> <mat-icon aria-hidden="false" class="smx-icon"  aria-label="close icon">schedule</mat-icon> End time: <span class="warning">{{task.endTime|date:'h:mm a'}}</span></p>
+          </div>
+          <div *ngIf="task.files" class="flex-row x-gray center-align mtxt-size" style=" margin-top: -10px;">
+            <mat-icon aria-hidden="false" class="smx-icon" aria-label="close icon">attachment</mat-icon>
+            <span>Attached File: </span> <a class="main-color">{{task.files}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
