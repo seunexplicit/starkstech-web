@@ -1,16 +1,17 @@
 {
   "ExpandedNodes": [
     "",
+    "\\dist",
     "\\src",
-    "\\src\\app",
     "\\src\\app\\components",
     "\\src\\app\\components\\side-nav",
-    "\\src\\app\\components\\top-bar",
     "\\src\\app\\directives",
     "\\src\\app\\pages",
+    "\\src\\app\\pages\\login-page",
     "\\src\\app\\pages\\to-do",
-    "\\src\\app\\pipes"
+    "\\src\\app\\pages\\to-do\\to-do",
+    "\\src\\app\\services"
   ],
-  "SelectedNode": "\\src\\app\\directives\\row.directive.ts",
+  "SelectedNode": "\\src\\environments\\environment.ts",
   "PreviewInSolutionExplorer": false
 }
